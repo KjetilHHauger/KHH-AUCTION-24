@@ -1,0 +1,47 @@
+<nav class="bg-primary text-white p-4 sticky top-0 w-full z-10">
+  <div class="container mx-auto flex items-center justify-between">
+    <button id="menuToggle" class="lg:hidden focus:outline-none" aria-label="Toggle navigation menu">
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        ></path>
+      </svg>
+    </button>
+    <a href="/index.html" class="text-xl font-bold" font-header>
+      Auctions
+    </a>
+    <div id="menu" class="hidden lg:flex space-x-6">
+      <a id="loginLink" href="/src/login.html" class="hover:text-gray-300 font-header">Login</a>
+      <a href="/src/profile.html" class="hover:text-gray-300 font-header">Profile</a>
+      <button id="logoutButton" class="hover:text-gray-300 hidden font-header">Logout</button>
+    </div>
+  </div>
+  <div
+    id="mobileMenu"
+    class="hidden flex flex-col bg-primary text-white p-4 absolute top-14 left-0 w-full z-20"
+  >
+    <a
+      id="mobileLoginLink"
+      href="/src/login.html"
+      class="block py-4 hover:bg-secondary text-center rounded font-header"
+    >
+      Login
+    </a>
+    <a href="/src/profile.html" class="block py-4 hover:bg-secondary text-center rounded font-header">Profile</a>
+    <button
+      id="mobileLogoutButton"
+      class="block py-4 hover:bg-secondary text-center rounded hidden font-header"
+    >
+      Logout
+    </button>
+  </div>
+</nav>
