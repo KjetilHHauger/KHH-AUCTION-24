@@ -23,15 +23,36 @@ export async function loadNav() {
   const menuToggle = document.getElementById("menuToggle");
   const mobileMenu = document.getElementById("mobileMenu");
 
+  const mobileAuctionsLink = document.createElement("a");
+  mobileAuctionsLink.href = "/index.html";
+  mobileAuctionsLink.textContent = "Auctions";
+  mobileAuctionsLink.className =
+    "block py-4 hover:bg-secondary text-center rounded";
+
+  if (mobileMenu) {
+    mobileMenu.prepend(mobileAuctionsLink); 
+  }
+
+  // Show/Hide 
   if (loginLink) loginLink.style.display = token ? "none" : "inline";
   if (mobileLoginLink) mobileLoginLink.style.display = token ? "none" : "inline";
   if (profileLink) profileLink.style.display = token ? "block" : "none";
   if (logoutButton) logoutButton.style.display = token ? "inline" : "none";
   if (mobileLogoutButton) mobileLogoutButton.style.display = token ? "inline" : "none";
 
+  // Mobile toggle
   if (menuToggle && mobileMenu) {
     menuToggle.addEventListener("click", () => {
       mobileMenu.classList.toggle("hidden");
     });
   }
+
+  // Logout
+  const handleLogout = () => {
+    localStorage.clear(); 
+    window.location.href = "/index.html"; 
+  };
+
+  if (logoutButton) logoutButton.addEventListener("click", handleLogout);
+  if (mobileLogoutButton) mobileLogoutButton.addEventListener("click", handleLogout);
 }
