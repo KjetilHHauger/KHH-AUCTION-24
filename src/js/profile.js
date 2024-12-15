@@ -94,18 +94,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function renderListings(listings) {
-    if (!listings || listings.length === 0) {
+
+    const activeListings = listings.filter((listing) => {
+      const now = new Date();
+      const end = new Date(listing.endsAt);
+      return end > now; 
+    });
+  
+    if (!activeListings || activeListings.length === 0) {
       myListingsContainer.innerHTML =
-        '<p class="text-gray-500 font-body">You have no listings.</p>';
+        '<p class="text-gray-500 font-body">You have no active listings.</p>';
       return;
     }
-
-    myListingsContainer.innerHTML = listings
+  
+    myListingsContainer.innerHTML = activeListings
       .map((listing) => {
         const timeLeft = calculateTimeLeft(listing.endsAt);
         const imageUrl =
           listing.media[0]?.url || 'https://fakeimg.pl/600x400?text=No+image';
-
+  
         return `
           <div
             class="p-4 border rounded-lg bg-white shadow-md w-full cursor-pointer"
@@ -123,6 +130,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       })
       .join('');
   }
+  
 
   function renderWins(wins) {
     if (!wins || wins.length === 0) {
