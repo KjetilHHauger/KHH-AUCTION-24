@@ -29,9 +29,18 @@ async function fetchAuctions() {
     if (!response.ok) throw new Error('Failed to fetch auctions.');
 
     const data = await response.json();
-    allAuctions = data.data;
+
+    allAuctions = data.data
+      .map((auction) => {
+        const now = new Date();
+        const end = new Date(auction.endsAt);
+        const timeRemaining = Math.max(0, end - now);
+        return { ...auction, timeRemaining };
+      })
+      .sort((a, b) => a.timeRemaining - b.timeRemaining);
+
     filteredAuctions = [...allAuctions];
-    return data.data;
+    return allAuctions;
   } catch {
     errorMessage.classList.remove('hidden');
     errorMessage.textContent =
