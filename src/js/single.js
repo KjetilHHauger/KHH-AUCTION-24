@@ -26,7 +26,7 @@ async function fetchAuctionDetails() {
     return data.data;
   } catch {
     errorMessage.textContent = 'Failed to load auction details. Please try again later.';
-    errorMessage.classList.add('font-header'); // Apply font-header for error messages
+    errorMessage.classList.add('font-header'); 
     return null;
   }
 }
