@@ -114,7 +114,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             <img src="${imageUrl}" alt="${
           listing.media[0]?.alt || "Item Image"
         }" class="h-36 object-contain rounded-md mb-2 mx-auto">
-            <h3 class="text-lg font-semibold text-center font-header">${listing.title}</h3>
+            <h3 class="text-lg font-semibold text-center font-header">${
+              listing.title
+            }</h3>
             <p class="text-center text-sm text-gray-600 font-body">${timeLeft}</p>
           </div>
         `;
@@ -142,7 +144,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             <img src="${imageUrl}" alt="${
           win.media[0]?.alt || "Item Image"
         }" class="h-36 object-contain rounded-md mb-2 mx-auto">
-            <h3 class="text-lg font-semibold text-center font-header">${win.title}</h3>
+            <h3 class="text-lg font-semibold text-center font-header">${
+              win.title
+            }</h3>
           </div>
         `;
       })

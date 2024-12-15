@@ -31,15 +31,17 @@ export async function loadNav() {
     "block py-4 hover:bg-secondary text-center rounded";
 
   if (mobileMenu) {
-    mobileMenu.prepend(mobileAuctionsLink); 
+    mobileMenu.prepend(mobileAuctionsLink);
   }
 
-  // Show/Hide 
+  // Show/Hide
   if (loginLink) loginLink.style.display = token ? "none" : "inline";
-  if (mobileLoginLink) mobileLoginLink.style.display = token ? "none" : "inline";
+  if (mobileLoginLink)
+    mobileLoginLink.style.display = token ? "none" : "inline";
   if (profileLink) profileLink.style.display = token ? "block" : "none";
   if (logoutButton) logoutButton.style.display = token ? "inline" : "none";
-  if (mobileLogoutButton) mobileLogoutButton.style.display = token ? "inline" : "none";
+  if (mobileLogoutButton)
+    mobileLogoutButton.style.display = token ? "inline" : "none";
 
   // Mobile toggle
   if (menuToggle && mobileMenu) {
@@ -50,12 +52,13 @@ export async function loadNav() {
 
   // Logout
   const handleLogout = () => {
-    localStorage.clear(); 
-    window.location.href = "/index.html"; 
+    localStorage.clear();
+    window.location.href = "/index.html";
   };
 
   if (logoutButton) logoutButton.addEventListener("click", handleLogout);
-  if (mobileLogoutButton) mobileLogoutButton.addEventListener("click", handleLogout);
+  if (mobileLogoutButton)
+    mobileLogoutButton.addEventListener("click", handleLogout);
 }
 
 // FOOTER
@@ -72,9 +75,9 @@ export async function loadFooter() {
     const footerHTML = await response.text();
     footerContainer.innerHTML = footerHTML;
 
-    footerContainer.className = "bg-primary text-white h-24 border-t flex items-center justify-center";
+    footerContainer.className =
+      "bg-primary text-white h-36 border-t flex items-center justify-center";
   } catch (error) {
     console.error("Error loading footer:", error);
   }
 }
-

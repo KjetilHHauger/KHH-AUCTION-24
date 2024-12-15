@@ -1,23 +1,23 @@
-import { API_BASE_URL } from './api.js';
-import { loadFooter, loadNav } from './utils.js';
+import { API_BASE_URL } from "./api.js";
+import { loadFooter, loadNav } from "./utils.js";
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener("DOMContentLoaded", async () => {
   await loadNav();
   await loadFooter();
 
-  const createListingForm = document.getElementById('createListingForm');
-  const mediaContainer = document.getElementById('mediaContainer');
-  const addMediaButton = document.getElementById('addMedia');
-  const token = localStorage.getItem('accessToken');
+  const createListingForm = document.getElementById("createListingForm");
+  const mediaContainer = document.getElementById("mediaContainer");
+  const addMediaButton = document.getElementById("addMedia");
+  const token = localStorage.getItem("accessToken");
 
   if (!token) {
-    window.location.href = './login.html';
+    window.location.href = "./login.html";
     return;
   }
 
-  addMediaButton.addEventListener('click', () => {
-    const mediaGroup = document.createElement('div');
-    mediaGroup.classList.add('media-group', 'space-y-2', 'mt-4');
+  addMediaButton.addEventListener("click", () => {
+    const mediaGroup = document.createElement("div");
+    mediaGroup.classList.add("media-group", "space-y-2", "mt-4");
 
     mediaGroup.innerHTML = `
       <input
@@ -37,46 +37,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     mediaContainer.appendChild(mediaGroup);
   });
 
-  createListingForm.addEventListener('submit', async (event) => {
+  createListingForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const formData = new FormData(createListingForm);
-    const title = formData.get('title').trim();
-    const description = formData.get('description').trim();
-    const tags = formData.get('tags')?.trim() || '';
+    const title = formData.get("title").trim();
+    const description = formData.get("description").trim();
+    const tags = formData.get("tags")?.trim() || "";
 
     if (title.length > 280 || description.length > 280) {
-      alert('Title and Description must not exceed 280 characters.');
+      alert("Title and Description must not exceed 280 characters.");
       return;
     }
 
-    const mediaInputs = Array.from(document.querySelectorAll('.media-group'));
+    const mediaInputs = Array.from(document.querySelectorAll(".media-group"));
     const media = mediaInputs
       .map((group) => ({
         url: group.querySelector('input[name="mediaUrl"]').value.trim(),
         alt: group.querySelector('input[name="mediaAlt"]').value.trim(),
       }))
-      .filter((item) => item.url !== '');
+      .filter((item) => item.url !== "");
 
     const newListing = {
       title,
       description,
       tags: tags ? [tags] : [],
       media,
-      endsAt: new Date(formData.get('endsAt')).toISOString(),
+      endsAt: new Date(formData.get("endsAt")).toISOString(),
     };
 
     if (!newListing.title || !newListing.endsAt) {
-      alert('Title and End Date are required.');
+      alert("Title and End Date are required.");
       return;
     }
 
     try {
       const response = await fetch(`${API_BASE_URL}auction/listings`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'X-Noroff-API-Key': '04cc0fef-f540-4ae1-8c81-5706316265d4',
-          'Content-Type': 'application/json',
+          "X-Noroff-API-Key": "04cc0fef-f540-4ae1-8c81-5706316265d4",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(newListing),
@@ -84,16 +84,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('API Error:', errorData);
-        alert(`Failed to create listing: ${errorData.message || 'Unknown error'}`);
+        console.error("API Error:", errorData);
+        alert(
+          `Failed to create listing: ${errorData.message || "Unknown error"}`
+        );
         return;
       }
 
-      alert('Listing created successfully!');
-      window.location.href = './profile.html';
+      alert("Listing created successfully!");
+      window.location.href = "./profile.html";
     } catch (error) {
-      console.error('Error creating listing:', error.message);
-      alert('An unexpected error occurred. Please try again.');
+      console.error("Error creating listing:", error.message);
+      alert("An unexpected error occurred. Please try again.");
     }
   });
 });
