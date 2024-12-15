@@ -1,9 +1,17 @@
 export async function loadNav() {
   const navElement = document.createElement("div");
-  const response = await fetch("/src/nav.html");
-  const navHTML = await response.text();
-  navElement.innerHTML = navHTML;
-  document.body.insertBefore(navElement, document.body.firstChild);
+  try {
+    const response = await fetch("/src/nav.html");
+    if (!response.ok) {
+      throw new Error(`Failed to load nav.html: ${response.statusText}`);
+    }
+    const navHTML = await response.text();
+    navElement.innerHTML = navHTML;
+    document.body.insertBefore(navElement, document.body.firstChild);
+  } catch (error) {
+    console.error("Error loading nav:", error);
+    return;
+  }
 
   const token = localStorage.getItem("accessToken");
   const loginLink = document.getElementById("loginLink");
@@ -11,39 +19,10 @@ export async function loadNav() {
   const profileLink = document.querySelector('a[href="/src/profile.html"]');
   const logoutButton = document.getElementById("logoutButton");
   const mobileLogoutButton = document.getElementById("mobileLogoutButton");
-  const menuToggle = document.getElementById("menuToggle");
-  const mobileMenu = document.getElementById("mobileMenu");
 
-  // Show/Hide links
-  if (token) {
-    // User logged in
-    loginLink.style.display = "none";
-    mobileLoginLink.style.display = "none";
-    profileLink.style.display = "block"; // Ensure Profile is visible
-    logoutButton.style.display = "inline";
-    mobileLogoutButton.style.display = "inline";
-  } else {
-    // User not logged
-    profileLink.style.display = "none";
-    logoutButton.style.display = "none";
-    mobileLogoutButton.style.display = "none";
-    loginLink.style.display = "inline"; // Ensure Login is visible
-    mobileLoginLink.style.display = "inline";
-  }
-
-  // Logout
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    window.location.href = "/index.html";
-  };
-  if (logoutButton) logoutButton.addEventListener("click", handleLogout);
-  if (mobileLogoutButton)
-    mobileLogoutButton.addEventListener("click", handleLogout);
-
-  // Mobile menu toggle
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
-    });
-  }
+  if (loginLink) loginLink.style.display = token ? "none" : "inline";
+  if (mobileLoginLink) mobileLoginLink.style.display = token ? "none" : "inline";
+  if (profileLink) profileLink.style.display = token ? "block" : "none";
+  if (logoutButton) logoutButton.style.display = token ? "inline" : "none";
+  if (mobileLogoutButton) mobileLogoutButton.style.display = token ? "inline" : "none";
 }
