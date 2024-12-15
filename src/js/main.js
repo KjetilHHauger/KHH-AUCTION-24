@@ -61,12 +61,13 @@ function renderAuctions(auctions) {
   errorMessage.classList.add('hidden');
 
   auctions.forEach((auction) => {
-    const { id, title, media, endsAt } = auction;
+    const { id, title, media, endsAt, highestBid } = auction; 
     const imageUrl =
       media && media[0]?.url
         ? media[0].url
         : 'https://fakeimg.pl/800x400?text=No+image';
     const timeLeft = calculateTimeLeft(endsAt);
+    const bidAmount = highestBid?.amount || '0'; 
 
     const auctionElement = document.createElement('div');
     auctionElement.className =
@@ -76,9 +77,12 @@ function renderAuctions(auctions) {
         <img class="w-full h-60 object-contain" src="${imageUrl}" alt="${title}">
       </div>
       <div class="p-4">
-        <h3 class="text-lg font-semibold text-gray-800 mb-2 font-header">${title}</h3>
+        <h3 class="text-lg font-semibold text-gray-800 mb-2 font-header text-center">${title}</h3>
         <div class="text-sm text-gray-600 mb-4 flex justify-between">
           <p>Time Left: <span class="text-tertiary font-body">${timeLeft}</span></p>
+        </div>
+        <div class="text-sm text-gray-800 font-body">
+          <p>Current Bid: <span class="font-semibold text-primary">${bidAmount} credits</span></p>
         </div>
       </div>
     `;
@@ -91,6 +95,7 @@ function renderAuctions(auctions) {
     auctionList.appendChild(auctionElement);
   });
 }
+
 
 function calculateTimeLeft(endsAt) {
   const now = new Date();
