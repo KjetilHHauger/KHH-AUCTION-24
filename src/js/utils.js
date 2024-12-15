@@ -1,7 +1,7 @@
 export async function loadNav() {
   const navElement = document.createElement("div");
   try {
-    const response = await fetch("/src/nav.html");
+    const response = await fetch("/src/nav.html"); 
     if (!response.ok) {
       throw new Error(`Failed to load nav.html: ${response.statusText}`);
     }
@@ -14,6 +14,7 @@ export async function loadNav() {
   }
 
   const token = localStorage.getItem("accessToken");
+
   const loginLink = document.getElementById("loginLink");
   const mobileLoginLink = document.getElementById("mobileLoginLink");
   const profileLink = document.querySelector('a[href="/src/profile.html"]');
