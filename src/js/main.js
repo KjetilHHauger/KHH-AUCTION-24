@@ -7,6 +7,7 @@ loadFooter();
 const auctionList = document.getElementById('auctionList');
 const errorMessage = document.getElementById('errorMessage');
 const searchInput = document.getElementById('searchInput');
+const sortSelect = document.getElementById('sortSelect');
 const paginationContainer = document.createElement('div');
 
 let allAuctions = [];
@@ -17,7 +18,7 @@ const itemsPerPage = 12;
 paginationContainer.className = 'flex items-center space-y-2 mt-4 mb-8';
 
 async function fetchAuctions() {
-  const url = `${API_BASE_URL}auction/listings?_active=true`;
+  const url = `${API_BASE_URL}auction/listings?_active=true&_bids=true`;
   try {
     const response = await fetch(url, {
       headers: {
@@ -30,21 +31,24 @@ async function fetchAuctions() {
 
     const data = await response.json();
 
-    allAuctions = data.data
-      .map((auction) => {
-        const now = new Date();
-        const end = new Date(auction.endsAt);
-        const timeRemaining = Math.max(0, end - now);
-        return { ...auction, timeRemaining };
-      })
-      .sort((a, b) => a.timeRemaining - b.timeRemaining);
+    allAuctions = data.data.map((auction) => {
+      const now = new Date();
+      const end = new Date(auction.endsAt);
+      const timeRemaining = Math.max(0, end - now);
+
+      const highestBid = auction.bids?.length > 0 
+        ? Math.max(...auction.bids.map((bid) => bid.amount)) 
+        : 0;
+
+      return { ...auction, timeRemaining, highestBid };
+    });
 
     filteredAuctions = [...allAuctions];
+    applySorting('shortest-time'); 
     return allAuctions;
   } catch {
     errorMessage.classList.remove('hidden');
-    errorMessage.textContent =
-      'Failed to load auctions. Please try again later.';
+    errorMessage.textContent = 'Failed to load auctions. Please try again later.';
     return [];
   }
 }
@@ -61,13 +65,9 @@ function renderAuctions(auctions) {
   errorMessage.classList.add('hidden');
 
   auctions.forEach((auction) => {
-    const { id, title, media, endsAt, highestBid } = auction; 
-    const imageUrl =
-      media && media[0]?.url
-        ? media[0].url
-        : 'https://fakeimg.pl/800x400?text=No+image';
+    const { id, title, media, endsAt, highestBid } = auction;
+    const imageUrl = media && media[0]?.url ? media[0].url : 'https://fakeimg.pl/800x400?text=No+image';
     const timeLeft = calculateTimeLeft(endsAt);
-    const bidAmount = highestBid?.amount || '0'; 
 
     const auctionElement = document.createElement('div');
     auctionElement.className =
@@ -82,7 +82,7 @@ function renderAuctions(auctions) {
           <p>Time Left: <span class="text-tertiary font-body">${timeLeft}</span></p>
         </div>
         <div class="text-sm text-gray-800 font-body">
-          <p>Current Bid: <span class="font-semibold text-primary">${bidAmount} credits</span></p>
+          <p>Highest Bid: <span class="font-semibold text-primary">${highestBid} credits</span></p>
         </div>
       </div>
     `;
@@ -95,7 +95,6 @@ function renderAuctions(auctions) {
     auctionList.appendChild(auctionElement);
   });
 }
-
 
 function calculateTimeLeft(endsAt) {
   const now = new Date();
@@ -146,14 +145,23 @@ function renderPaginationControls(totalPages) {
 
 function renderPaginatedAuctions(auctions) {
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedAuctions = auctions.slice(
-    startIndex,
-    startIndex + itemsPerPage,
-  );
+  const paginatedAuctions = auctions.slice(startIndex, startIndex + itemsPerPage);
   renderAuctions(paginatedAuctions);
 
   const totalPages = Math.ceil(auctions.length / itemsPerPage);
   renderPaginationControls(totalPages);
+}
+
+function applySorting(sortOption) {
+  if (sortOption === 'shortest-time') {
+    filteredAuctions.sort((a, b) => a.timeRemaining - b.timeRemaining);
+  } else if (sortOption === 'longest-time') {
+    filteredAuctions.sort((a, b) => b.timeRemaining - a.timeRemaining);
+  } else if (sortOption === 'highest-bid') {
+    filteredAuctions.sort((a, b) => b.highestBid - a.highestBid);
+  } else if (sortOption === 'lowest-bid') {
+    filteredAuctions.sort((a, b) => a.highestBid - b.highestBid);
+  }
 }
 
 function filterAuctions(query) {
@@ -171,6 +179,9 @@ function filterAuctions(query) {
     errorMessage.classList.add('hidden');
   }
 
+  const selectedSort = sortSelect.value;
+  applySorting(selectedSort);
+
   renderPaginatedAuctions(filteredAuctions);
 }
 
@@ -179,9 +190,17 @@ searchInput.addEventListener('input', () => {
   filterAuctions(query);
 });
 
+sortSelect.addEventListener('change', () => {
+  const query = searchInput.value.trim().toLowerCase();
+  filterAuctions(query);
+});
+
 async function loadAuctions() {
-  const auctions = await fetchAuctions();
-  renderPaginatedAuctions(auctions);
+  await fetchAuctions(); 
+  applySorting('shortest-time'); 
+  renderPaginatedAuctions(filteredAuctions); 
 }
+
+
 
 loadAuctions();

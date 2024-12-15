@@ -25,7 +25,17 @@
   <body class="bg-gray-100 min-h-screen flex flex-col">
     <main class="flex-grow container mx-auto p-4 flex flex-col items-center">
       <div class="flex justify-between space-x-2 mb-6 w-full">
-        <h1 class="text-3xl font-bold">Auctions</h1>
+        <div id="sortContainer" class="flex-grow-1">
+          <select
+            id="sortSelect"
+            class="px-4 py-2 border rounded text-secondary bg-white w-full mb-5 text-center"
+          >
+            <option value="shortest-time">Shortest Time Left</option>
+            <option value="longest-time">Longest Time Left</option>
+            <option value="highest-bid">Highest Bid</option>
+            <option value="lowest-bid">Lowest Bid</option>
+          </select>
+        </div>
         <div id="searchContainer" class="flex-grow">
           <input
             id="searchInput"
