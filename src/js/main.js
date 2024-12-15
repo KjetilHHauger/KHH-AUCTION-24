@@ -7,16 +7,14 @@ loadFooter();
 const auctionList = document.getElementById("auctionList");
 const errorMessage = document.getElementById("errorMessage");
 const searchInput = document.getElementById("searchInput");
-const token = localStorage.getItem("accessToken");
-const loggedInUsername = localStorage.getItem("username");
 const paginationContainer = document.createElement("div");
 
 let allAuctions = [];
-let filteredAuctions = []; 
+let filteredAuctions = [];
 let currentPage = 1;
-const itemsPerPage = 12; 
+const itemsPerPage = 12;
 
-paginationContainer.className = "flex justify-center space-x-2 mt-4";
+paginationContainer.className = "flex items-center space-y-2 mt-4 mb-8"; 
 
 async function fetchAuctions() {
   const url = `${API_BASE_URL}auction/listings?_active=true`;
@@ -31,8 +29,8 @@ async function fetchAuctions() {
     if (!response.ok) throw new Error("Failed to fetch auctions.");
 
     const data = await response.json();
-    allAuctions = data.data; 
-    filteredAuctions = [...allAuctions]; 
+    allAuctions = data.data;
+    filteredAuctions = [...allAuctions];
     return data.data;
   } catch {
     errorMessage.classList.remove("hidden");
@@ -54,8 +52,6 @@ function renderAuctions(auctions) {
   errorMessage.classList.add("hidden");
 
   auctions.forEach((auction) => {
-    if (loggedInUsername && auction.seller?.name === loggedInUsername) return;
-
     const { id, title, media, endsAt } = auction;
     const imageUrl =
       media && media[0]?.url
@@ -65,7 +61,7 @@ function renderAuctions(auctions) {
 
     const auctionElement = document.createElement("div");
     auctionElement.className =
-      "w-full max-w-sm bg-white rounded-xl shadow-md overflow-hidden border border-gray-200";
+      "w-full max-w-sm bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 mb-4";
     auctionElement.innerHTML = `
       <div class="relative cursor-pointer" data-id="${id}">
         <img class="w-full h-60 object-contain" src="${imageUrl}" alt="${title}">
@@ -99,20 +95,37 @@ function calculateTimeLeft(endsAt) {
 function renderPaginationControls(totalPages) {
   paginationContainer.innerHTML = "";
 
-  for (let i = 1; i <= totalPages; i++) {
-    const button = document.createElement("button");
-    button.className = `px-4 py-2 rounded ${
-      i === currentPage ? "bg-primary text-white" : "bg-gray-200 text-gray-800"
-    } hover:bg-primary hover:text-white transition`;
-    button.textContent = i;
-
-    button.addEventListener("click", () => {
-      currentPage = i;
+  const prevButton = document.createElement("button");
+  prevButton.textContent = "Previous";
+  prevButton.className =
+    "px-4 py-2 rounded bg-gray-200 text-gray-800 hover:bg-primary hover:text-white transition";
+  prevButton.disabled = currentPage === 1;
+  prevButton.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
       renderPaginatedAuctions(filteredAuctions);
-    });
+    }
+  });
 
-    paginationContainer.appendChild(button);
-  }
+  const pageInfo = document.createElement("span");
+  pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+  pageInfo.className = "text-gray-600 font-medium mx-4";
+
+  const nextButton = document.createElement("button");
+  nextButton.textContent = "Next";
+  nextButton.className =
+    "px-4 py-2 rounded bg-gray-200 text-gray-800 hover:bg-primary hover:text-white transition";
+  nextButton.disabled = currentPage === totalPages;
+  nextButton.addEventListener("click", () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderPaginatedAuctions(filteredAuctions);
+    }
+  });
+
+  paginationContainer.appendChild(prevButton);
+  paginationContainer.appendChild(pageInfo);
+  paginationContainer.appendChild(nextButton);
 
   auctionList.parentNode.appendChild(paginationContainer);
 }
@@ -127,7 +140,7 @@ function renderPaginatedAuctions(auctions) {
 }
 
 function filterAuctions(query) {
-  currentPage = 1; 
+  currentPage = 1;
   filteredAuctions = allAuctions.filter(
     (auction) =>
       auction.title.toLowerCase().includes(query) ||
