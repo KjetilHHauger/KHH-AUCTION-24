@@ -1,7 +1,7 @@
 export async function loadNav() {
   const navElement = document.createElement("div");
   try {
-    const response = await fetch("/src/nav.html"); 
+    const response = await fetch("/src/nav.html");
     if (!response.ok) {
       throw new Error(`Failed to load nav.html: ${response.statusText}`);
     }
@@ -20,10 +20,18 @@ export async function loadNav() {
   const profileLink = document.querySelector('a[href="/src/profile.html"]');
   const logoutButton = document.getElementById("logoutButton");
   const mobileLogoutButton = document.getElementById("mobileLogoutButton");
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
 
   if (loginLink) loginLink.style.display = token ? "none" : "inline";
   if (mobileLoginLink) mobileLoginLink.style.display = token ? "none" : "inline";
   if (profileLink) profileLink.style.display = token ? "block" : "none";
   if (logoutButton) logoutButton.style.display = token ? "inline" : "none";
   if (mobileLogoutButton) mobileLogoutButton.style.display = token ? "inline" : "none";
+
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+  }
 }
