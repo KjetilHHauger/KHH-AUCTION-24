@@ -56,7 +56,36 @@ The **Auction Website** is a dynamic platform where users can browse, create, an
 ├── dist/                # Compiled CSS/JS for production
 └── tailwind.config.js   # TailwindCSS configuration
 ```
+## 🛠️ Linting and Code Style
 
+This project uses **ESLint** for JavaScript linting and code style enforcement.
+
+### Configuration Highlights
+- **Quotes**: Single quotes
+- **Semicolons**: Required
+- **Indentation**: 2 spaces
+- **Unused Variables**: Warnings
+- **Console Logs**: Allowed
+- Other detailed rules can be found in the [ESLint configuration](./.eslintrc.js).
+
+### Setup
+
+Ensure ESLint is installed and configured:
+
+1. Install ESLint and dependencies:
+   ```bash
+   npm install eslint @eslint/js
+   ```
+
+2. Run ESLint:
+   ```bash
+   npx eslint src/
+   ```
+
+3. Automatically fix issues (optional):
+   ```bash
+   npx eslint src/ --fix
+   ```
 ---
 
 ## ⚙️ Setup Instructions
