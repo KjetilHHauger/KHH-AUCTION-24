@@ -1,8 +1,9 @@
-import { loadNav } from "./utils.js";
+import { loadFooter, loadNav } from "./utils.js";
 import { API_BASE_URL } from "./api.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadNav();
+  await loadFooter();
 
   const profileImage = document.getElementById("profileImage");
   const usernameElement = document.getElementById("username");

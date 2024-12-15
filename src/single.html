@@ -5,20 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Single Auction</title>
     <link rel="stylesheet" href="../dist/css/styles.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="/src/assets/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/src/assets/favicon/apple-touch-icon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Lato:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/src/assets/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/src/assets/favicon/apple-touch-icon.png"
+    />
     <meta name="apple-mobile-web-app-title" content="Hammer Time" />
   </head>
   <body class="bg-gray-100 min-h-screen flex flex-col font-body">
-    <main class="container mx-auto p-6">
+    <main class="container mx-auto p-6 flex-grow">
       <div
         id="auctionContainer"
         class="bg-white p-6 rounded-lg shadow-md font-body"
       ></div>
       <div id="errorMessage" class="text-red-500 mt-4 hidden font-header"></div>
     </main>
+    <div id="footer-container" class="bg-primary text-white h-24 border-t flex items-center justify-center"></div>
     <script src="js/single.js" type="module"></script>
   </body>
 </html>

@@ -1,7 +1,8 @@
-import { loadNav } from './utils.js';
+import { loadFooter, loadNav } from './utils.js';
 import { API_BASE_URL } from './api.js';
 
 loadNav();
+loadFooter();
 
 const queryString = new URLSearchParams(window.location.search);
 const auctionId = queryString.get('id');

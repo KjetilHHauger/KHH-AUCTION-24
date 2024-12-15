@@ -1,8 +1,9 @@
 import { API_BASE_URL } from './api.js';
-import { loadNav } from './utils.js';
+import { loadFooter, loadNav } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadNav();
+  await loadFooter();
 
   const createListingForm = document.getElementById('createListingForm');
   const mediaContainer = document.getElementById('mediaContainer');

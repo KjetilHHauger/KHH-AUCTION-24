@@ -1,7 +1,8 @@
-import { loadNav } from "./utils.js";
+import { loadFooter, loadNav } from "./utils.js";
 import { API_BASE_URL } from "./api.js";
 
 loadNav();
+loadFooter();
 
 const auctionList = document.getElementById("auctionList");
 const errorMessage = document.getElementById("errorMessage");

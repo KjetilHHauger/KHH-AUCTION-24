@@ -1,3 +1,4 @@
+// NAVIGATION
 export async function loadNav() {
   const navElement = document.createElement("div");
   try {
@@ -56,3 +57,24 @@ export async function loadNav() {
   if (logoutButton) logoutButton.addEventListener("click", handleLogout);
   if (mobileLogoutButton) mobileLogoutButton.addEventListener("click", handleLogout);
 }
+
+// FOOTER
+export async function loadFooter() {
+  const footerContainer = document.getElementById("footer-container");
+  if (!footerContainer) return;
+
+  try {
+    const response = await fetch("/src/footer.html");
+    if (!response.ok) {
+      throw new Error(`Failed to load footer.html: ${response.statusText}`);
+    }
+
+    const footerHTML = await response.text();
+    footerContainer.innerHTML = footerHTML;
+
+    footerContainer.className = "bg-primary text-white h-24 border-t flex items-center justify-center";
+  } catch (error) {
+    console.error("Error loading footer:", error);
+  }
+}
+
