@@ -128,13 +128,6 @@ fetch(`${API_BASE_URL}auction/listings`, {
 
 ---
 
-## 📸 Screenshots
-
-- **Homepage**
-- **Single Auction Page**
-
----
-
 ## 📜 License
 
 This project is licensed under the MIT License.
