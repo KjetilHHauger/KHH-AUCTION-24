@@ -14,7 +14,7 @@ let filteredAuctions = [];
 let currentPage = 1;
 const itemsPerPage = 12;
 
-paginationContainer.className = "flex items-center space-y-2 mt-4 mb-8"; 
+paginationContainer.className = "flex items-center space-y-2 mt-4 mb-8";
 
 async function fetchAuctions() {
   const url = `${API_BASE_URL}auction/listings?_active=true`;
@@ -132,7 +132,10 @@ function renderPaginationControls(totalPages) {
 
 function renderPaginatedAuctions(auctions) {
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedAuctions = auctions.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedAuctions = auctions.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
   renderAuctions(paginatedAuctions);
 
   const totalPages = Math.ceil(auctions.length / itemsPerPage);
