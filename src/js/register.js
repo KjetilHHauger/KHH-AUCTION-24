@@ -1,7 +1,8 @@
 import { API_BASE_URL } from "./api.js";
-import { loadNav } from "./utils.js";
+import { loadFooter, loadNav } from "./utils.js";
 
 loadNav();
+loadFooter();
 
 const registerForm = document.getElementById("registerForm");
 const messageDiv = document.getElementById("message");
