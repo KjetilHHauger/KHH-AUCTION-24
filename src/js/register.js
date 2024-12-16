@@ -34,21 +34,42 @@ registerForm.addEventListener('submit', async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      localStorage.setItem('accessToken', data.data.accessToken);
+      const loginResponse = await fetch(`${API_BASE_URL}auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      messageDiv.textContent = 'Registration successful! Redirecting...';
-      messageDiv.className = 'text-green-500 font-heading';
+      if (!loginResponse.ok) {
+        messageDiv.textContent = 'Registration successful, but login failed. Please log in manually.';
+        messageDiv.className = 'text-yellow-500 font-header text-center';
+
+        setTimeout(() => {
+          window.location.href = `${window.location.origin}/login.html`;
+        }, 3000);
+        return;
+      }
+
+      const loginData = await loginResponse.json();
+      const { accessToken, name } = loginData.data;
+
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('username', name);
+
+      messageDiv.textContent = 'Registration and login successful! Redirecting...';
+      messageDiv.className = 'text-green-500 font-header text-center';
 
       setTimeout(() => {
         window.location.href = `${window.location.origin}/index.html`;
       }, 2000);
     } else {
       messageDiv.textContent = `Error: ${data.message}`;
-      messageDiv.className = 'text-red-500 font-header';
+      messageDiv.className = 'text-red-500 font-header text-center';
     }
   } catch {
-    messageDiv.textContent =
-      'An unexpected error occurred. Please try again later.';
-    messageDiv.className = 'text-red-500 font-header';
+    messageDiv.textContent = 'An unexpected error occurred. Please try again later.';
+    messageDiv.className = 'text-red-500 font-header text-center';
   }
 });
