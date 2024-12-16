@@ -43,7 +43,8 @@ registerForm.addEventListener('submit', async (e) => {
       });
 
       if (!loginResponse.ok) {
-        messageDiv.textContent = 'Registration successful, but login failed. Please log in manually.';
+        messageDiv.textContent =
+          'Registration successful, but login failed. Please log in manually.';
         messageDiv.className = 'text-yellow-500 font-header text-center';
 
         setTimeout(() => {
@@ -58,18 +59,20 @@ registerForm.addEventListener('submit', async (e) => {
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('username', name);
 
-      messageDiv.textContent = 'Registration and login successful! Redirecting...';
-      messageDiv.className = 'text-green-500 font-header text-center';
+      messageDiv.textContent =
+        'Registration and login successful! Redirecting...';
+      messageDiv.className = 'text-lime-200 font-header text-center';
 
       setTimeout(() => {
         window.location.href = `${window.location.origin}/index.html`;
       }, 2000);
     } else {
       messageDiv.textContent = `Error: ${data.message}`;
-      messageDiv.className = 'text-red-500 font-header text-center';
+      messageDiv.className = 'text-pink-200 font-header text-center';
     }
   } catch {
-    messageDiv.textContent = 'An unexpected error occurred. Please try again later.';
-    messageDiv.className = 'text-red-500 font-header text-center';
+    messageDiv.textContent =
+      'An unexpected error occurred. Please try again later.';
+    messageDiv.className = 'text-pink-200 font-header text-center';
   }
 });

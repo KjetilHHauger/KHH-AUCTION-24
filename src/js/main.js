@@ -36,19 +36,21 @@ async function fetchAuctions() {
       const end = new Date(auction.endsAt);
       const timeRemaining = Math.max(0, end - now);
 
-      const highestBid = auction.bids?.length > 0 
-        ? Math.max(...auction.bids.map((bid) => bid.amount)) 
-        : 0;
+      const highestBid =
+        auction.bids?.length > 0
+          ? Math.max(...auction.bids.map((bid) => bid.amount))
+          : 0;
 
       return { ...auction, timeRemaining, highestBid };
     });
 
     filteredAuctions = [...allAuctions];
-    applySorting('shortest-time'); 
+    applySorting('shortest-time');
     return allAuctions;
   } catch {
     errorMessage.classList.remove('hidden');
-    errorMessage.textContent = 'Failed to load auctions. Please try again later.';
+    errorMessage.textContent =
+      'Failed to load auctions. Please try again later.';
     return [];
   }
 }
@@ -66,7 +68,10 @@ function renderAuctions(auctions) {
 
   auctions.forEach((auction) => {
     const { id, title, media, endsAt, highestBid } = auction;
-    const imageUrl = media && media[0]?.url ? media[0].url : 'https://fakeimg.pl/800x400?text=No+image';
+    const imageUrl =
+      media && media[0]?.url
+        ? media[0].url
+        : 'https://fakeimg.pl/800x400?text=No+image';
     const timeLeft = calculateTimeLeft(endsAt);
 
     const auctionElement = document.createElement('div');
@@ -145,7 +150,10 @@ function renderPaginationControls(totalPages) {
 
 function renderPaginatedAuctions(auctions) {
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedAuctions = auctions.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedAuctions = auctions.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
   renderAuctions(paginatedAuctions);
 
   const totalPages = Math.ceil(auctions.length / itemsPerPage);
@@ -196,11 +204,9 @@ sortSelect.addEventListener('change', () => {
 });
 
 async function loadAuctions() {
-  await fetchAuctions(); 
-  applySorting('shortest-time'); 
-  renderPaginatedAuctions(filteredAuctions); 
+  await fetchAuctions();
+  applySorting('shortest-time');
+  renderPaginatedAuctions(filteredAuctions);
 }
-
-
 
 loadAuctions();

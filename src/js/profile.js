@@ -94,29 +94,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function renderListings(listings) {
-
     const activeListings = listings.filter((listing) => {
       const now = new Date();
       const end = new Date(listing.endsAt);
-      return end > now; 
+      return end > now;
     });
-  
+
     if (!activeListings || activeListings.length === 0) {
       myListingsContainer.innerHTML =
         '<p class="text-gray-500 font-body">You have no active listings.</p>';
       return;
     }
-  
+
     myListingsContainer.innerHTML = activeListings
       .map((listing) => {
         const timeLeft = calculateTimeLeft(listing.endsAt);
         const imageUrl =
           listing.media[0]?.url || 'https://fakeimg.pl/600x400?text=No+image';
-  
+
         return `
           <div
-            class="p-4 border rounded-lg bg-white shadow-md w-full cursor-pointer"
-            onclick="window.location.href='single.html?id=${listing.id}'"
+            class="p-4 border rounded-lg bg-white shadow-md w-full flex flex-col space-y-4"
           >
             <img src="${imageUrl}" alt="${
   listing.media[0]?.alt || 'Item Image'
@@ -125,12 +123,60 @@ document.addEventListener('DOMContentLoaded', async () => {
   listing.title
 }</h3>
             <p class="text-center text-sm text-gray-600 font-body">${timeLeft}</p>
+            <div class="flex flex-col justify-center items-center">
+              <button
+                class="bg-primary text-white px-4 py-2 rounded-lg font-header hover:bg-tertiary mb-2"
+                onclick="updateListing('${listing.id}')"
+              >
+                Update
+              </button>
+              <button
+                class="bg-pink-200 text-white px-5 py-2 rounded-lg font-header hover:bg-pink-300"
+                onclick="deleteListing('${listing.id}')"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         `;
       })
       .join('');
   }
-  
+
+  window.updateListing = function (listingId) {
+    window.location.href = `update.html?id=${listingId}`;
+  };
+
+  window.deleteListing = async function (listingId) {
+    if (!confirm('Are you sure you want to delete this listing?')) return;
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}auction/listings/${listingId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'X-Noroff-API-Key': '04cc0fef-f540-4ae1-8c81-5706316265d4',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(
+          `Failed to delete listing: ${errorData.message || 'Unknown error'}`,
+        );
+        return;
+      }
+
+      alert('Listing deleted successfully!');
+      window.location.reload();
+    } catch (error) {
+      console.error('Error deleting listing:', error.message);
+      alert('An unexpected error occurred. Please try again later.');
+    }
+  };
 
   function renderWins(wins) {
     if (!wins || wins.length === 0) {

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Listing</title>
+    <link rel="stylesheet" href="../dist/css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Lato:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/src/assets/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/src/assets/favicon/apple-touch-icon.png"
+    />
+    <meta name="apple-mobile-web-app-title" content="Hammer Time" />
+  </head>
+  <body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col font-body">
+    <main class="flex-grow flex items-center justify-center">
+      <div class="w-full max-w-lg p-5">
+        <div class="w-full max-w-lg p-4 bg-white shadow-md rounded-lg">
+          <h1 class="text-2xl font-bold mb-6 font-header">Update Listing</h1>
+          <form id="updateListingForm" class="space-y-4">
+            <input type="hidden" id="listingId" name="listingId" />
+            <div>
+              <label
+                for="title"
+                class="block text-sm font-medium text-gray-700 font-header"
+              >
+                Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                required
+                maxlength="280"
+                class="mt-1 p-2 border w-full rounded font-body"
+              />
+              <p class="text-sm text-gray-500 mt-1">Max 280 characters</p>
+            </div>
+            <div>
+              <label
+                for="description"
+                class="block text-sm font-medium text-gray-700 font-header"
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                maxlength="280"
+                class="mt-1 p-2 border w-full rounded font-body"
+              ></textarea>
+              <p class="text-sm text-gray-500 mt-1">Max 280 characters</p>
+            </div>
+            <div>
+              <label
+                for="tags"
+                class="block text-sm font-medium text-gray-700 font-header"
+              >
+                Tags
+              </label>
+              <input
+                type="text"
+                id="tags"
+                name="tags"
+                placeholder="Comma-separated tags"
+                class="mt-1 p-2 border w-full rounded font-body"
+              />
+            </div>
+            <div id="mediaContainer">
+              <label
+                for="mediaUrl"
+                class="block text-sm font-medium text-gray-700 font-header"
+              >
+                Media
+              </label>
+              <div class="media-group space-y-2">
+                <input
+                  type="text"
+                  name="mediaUrl"
+                  placeholder="Media URL"
+                  class="mt-1 p-2 border w-full rounded font-body"
+                />
+                <input
+                  type="text"
+                  name="mediaAlt"
+                  placeholder="Alt text for image"
+                  class="mt-1 p-2 border w-full rounded font-body"
+                />
+              </div>
+            </div>
+            <button
+              type="button"
+              id="addMedia"
+              class="text-primary mt-2 font-header"
+            >
+              + Add media
+            </button>
+            <div>
+              <label
+                for="endsAt"
+                class="block text-sm font-medium text-gray-700 font-header"
+              >
+                Ends At
+              </label>
+              <input
+                type="datetime-local"
+                id="endsAt"
+                name="endsAt"
+                required
+                class="mt-1 p-2 border w-full rounded font-body"
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 font-header"
+            >
+              Update Listing
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <div
+      id="footer-container"
+      class="bg-primary text-white h-24 border-t flex items-center justify-center"
+    ></div>
+    <script type="module" src="/src/js/update.js"></script>
+  </body>
+</html>
