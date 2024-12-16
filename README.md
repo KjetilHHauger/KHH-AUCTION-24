@@ -2,7 +2,7 @@
 
 ## 🚀 About the Project
 
-The **Auction Website** is a dynamic platform where users can browse, create, and bid on auctions. Designed for seamless interaction, it includes features like user authentication, listing management, and bidding functionality—all built using the **Noroff API**.
+The Auction Website is a dynamic platform where users can browse, create, and bid on auctions. Designed for seamless interaction, it includes features like user authentication, listing management, and bidding functionality—all powered by the Noroff API.
 
 ---
 
@@ -16,8 +16,15 @@ The **Auction Website** is a dynamic platform where users can browse, create, an
 
 - **Auction Listings**
   - View live auctions with media, descriptions, and bidding information
-  - Search auctions
-  - Create auctions
+  - Search auctions by keywords
+  - Filter auctions by:
+      - Shortest/Longest time left
+      - Highest/Lowest bid
+  - Create new auctions with:
+      - Media support (URLs and alt texts)
+      - Tags and detailed descriptions
+  - Update auctions directly from your profile
+  - Delete auctions you own
 
 - **Bidding System**
   - Place bids on auctions with real-time updates
